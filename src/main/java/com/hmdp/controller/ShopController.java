@@ -33,7 +33,8 @@ public class ShopController {
      */
     @GetMapping("/{id}")
     public Result queryShopById(@PathVariable("id") Long id) {
-        return Result.ok(shopService.getById(id));
+        //TODO 将店铺信息缓存到Redis中
+        return shopService.queryById(id);
     }
 
     /**
@@ -56,9 +57,8 @@ public class ShopController {
      */
     @PutMapping
     public Result updateShop(@RequestBody Shop shop) {
-        // 写入数据库
-        shopService.updateById(shop);
-        return Result.ok();
+        //TODO 使用Redis实现缓存和数据库一致性更新
+        return shopService.updateShopById(shop);
     }
 
     /**

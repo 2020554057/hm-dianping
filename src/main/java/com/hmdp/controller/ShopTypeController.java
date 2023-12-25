@@ -27,8 +27,7 @@ public class ShopTypeController {
 
     @GetMapping("list")
     public Result queryTypeList() {
-        List<ShopType> typeList = typeService
-                .query().orderByAsc("sort").list();
-        return Result.ok(typeList);
+        //TODO 将店铺类型信息缓存到Redis中
+        return typeService.queryTypeList();
     }
 }

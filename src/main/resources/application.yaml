@@ -1,14 +1,17 @@
+#服务端口
 server:
   port: 8081
+
+#项目基本配置信息
 spring:
   application:
     name: hmdp
-  datasource:
+  datasource: #Mysql数据库配置
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/hmdp?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/hmdp?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true
     username: root
     password: 123456
-  redis:
+  redis:  #Redis配置
     host: 192.168.31.128
     port: 6379
     password: 123456
@@ -18,10 +21,14 @@ spring:
         max-idle: 10
         min-idle: 1
         time-between-eviction-runs: 10s
-  jackson:
+  jackson:  # Spring MVC 提供了 MappingJackson2HttpMessageConverter类用户数据的转换
     default-property-inclusion: non_null # JSON处理时忽略非空字段
+
+#MybatisPlus配置
 mybatis-plus:
   type-aliases-package: com.hmdp.entity # 别名扫描包
+
+#日志级别设置
 logging:
   level:
-    com.hmdp: debug
+    com.hmdp: info
