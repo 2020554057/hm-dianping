@@ -167,7 +167,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {
-            //3、释放互斥锁
+            //3、释放互斥锁（释放锁一定要记得放在finally中，防止死锁）
             unlock(lockKey);
         }
 
@@ -184,7 +184,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
         String key = CACHE_SHOP_KEY + id;
         //1、根据商铺id从redis中查询商铺缓存
         String shopJson = stringRedisTemplate.opsForValue().get(key);
-        if (StrUtil.isNotBlank(shopJson)) {
+        if (StrUtil.isNotBlank(shopJson)) {//判断某字符串是否不为空且长度不为0且不由空白符(whitespace)构成，等于!isBlank(String str)
             //不为空返回商铺信息
             return JSONUtil.toBean(shopJson, Shop.class);
         }

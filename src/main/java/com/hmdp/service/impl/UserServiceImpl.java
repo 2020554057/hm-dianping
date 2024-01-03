@@ -89,14 +89,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         //4、判断用户是否存在
         if (user == null){
             //用户不存在（创建新用户，并保存到数据库中）
-            user = createNewUser(loginForm.getPhone());
+            user = createNewUser(phone);
         }
         //5、TODO 保存用户信息到Redis中
         //5.1 随机生成token，作为登录令牌
-        String token = UUID.randomUUID().toString(true);
+        String token = UUID.randomUUID().toString(true);//UUID类来自于hutool工具包
         //5.2 将user对象转为HashMap存储
-        UserDTO userDTO = BeanUtil.copyProperties(user, UserDTO.class);
+        UserDTO userDTO = BeanUtil.copyProperties(user, UserDTO.class);//BeanUtil类来自于hutool工具包
         //user转map时，由于id是Long类型，⽽StringRedisTemplate只⽀持String类型，因此需要⾃定义映射规则
+        // 将对象中字段全部转成string类型，StringRedisTemplate只能存字符串类型的数据
         Map<String, Object> userMap = BeanUtil.beanToMap(userDTO,new HashMap<>(),CopyOptions.create().setIgnoreNullValue(true)
                 .setFieldValueEditor((fieldName,fieldValue)->fieldValue.toString()));
         //5.3 存储
